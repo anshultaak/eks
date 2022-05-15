@@ -1,0 +1,69 @@
+## Pre-requisites
+- Kubectl —  https://kubernetes.io/docs/tasks/tools/install-kubectl/
+- AWS CLI -  https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html
+- Aws iam authenticator — https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
+- eksctl — https://github.com/weaveworks/eksctl
+
+
+FIRSTLY BUILDING DOCKER FILE
+
+## build docker image
+docker build -t hello-world .
+
+## Run docker image
+docker images --filter reference=hello-world
+
+##Run the newly built image. The -p 80:80 option maps the exposed port 80 on the container to port 80 on the host system.
+docker run -t -i -p 80:80 hello-world
+
+
+LOGIN AWS CLI AND CREATE REPO ECR AND PUSH IMAGE WITH TAG
+
+## Authenticate to your default registry
+## New system new - Access Key and Secrete for AWS CLI login
+
+## Create you ecr repo
+aws ecr create-repository --repository-name hello-world --region us-east-1
+	
+## Authenticate your docker to ecr == > gives encrypted password for docker
+aws ecr get-login-password --region us-east-1
+
+## Final Authenticate to ecr
+aws ecr --region us-east-1 | docker login -u AWS -p <Above encrytped password> 357171621133.dkr.ecr.us-east-1.amazonaws.com/hello-world
+
+## docker tag
+docker tag hello-world:latest 357171621133.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest
+
+## docker push
+docker push 357171621133.dkr.ecr.us-east-1.amazonaws.com/hello-world:latest
+
+CREATE VPC AND EKS CLUSTER 
+
+## Create VPC for EKS using stackset -- AWS CLI
+# vpc github file location = https://github.com/RekhuGopal/SharedDocs/blob/main/AWS-ECR-to-EKS-Integration/amazon-eks-vpc-private-subnets.yaml
+aws cloudformation deploy --template-file F:/RekhuAll/Docker/ECREKSIntegration/amazon-eks-vpc-private-subnets.yaml --stack-name my-new-stack
+
+## Create our cluster on EKS
+yaml file path = https://github.com/RekhuGopal/SharedDocs/blob/main/AWS-ECR-to-EKS-Integration/cluster.yaml
+eksctl create cluster -f cluster.yaml --kubeconfig=C:\Users\Lenovo\.kube\config
+
+USING ECR IMAGE IN DEPLOYMENT
+
+## Create our deployment
+yaml file ECR image in this file =https://github.com/RekhuGopal/SharedDocs/blob/main/AWS-ECR-to-EKS-Integration/deployment.yaml
+kubectl apply -f deployment.yaml
+
+## Create service
+service yaml file path = https://github.com/RekhuGopal/SharedDocs/blob/main/AWS-ECR-to-EKS-Integration/service.yaml
+kubectl apply -f service.yaml
+
+## service created
+kubectl get services
+
+##  pods of our application are running.
+kubectl get pods -o wide
+
+## get nodes command
+kubectl get nodes -o wide
+
+

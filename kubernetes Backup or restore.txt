@@ -1,5 +1,5 @@
 
-LAPTOP OR MACHINE (we have install VELERO) -> configure velero od on eks cluster targeting S3 and invoke backup(backup store in S3) -> velero create backup automatically push to S3 bucket -> velero backup restore application (restart your application if deleted)
+LAPTOP OR MACHINE (we have install VELERO) -> configure velero pod on eks cluster targeting S3 and invoke backup(backup store in S3) -> velero create backup automatically push to S3 bucket -> velero backup restore application (restart your application if deleted)
 velero => it help to run interact with eks cluster and with this run command and help take backup
 # you can use on this on two three cluster also
 

@@ -1,0 +1,19 @@
+IAM = you can provide access to different user different permission same aws account
+
+FOR DIFFERENT COMPONENT IAM
+USERS = First we have create user and then prvoide differnet permission 
+IAM -> USERS -> ADD USER -> (add user name) -> access type (chose password)-> group aceess or policy
+
+GROUPS = different user add in a group then it get same type permission
+IAM -> GROUPS -> CREATE GROUP ->NAME GROUP -> ATTACH POLICY (PERMISSION) -> CREATE GROUP
+
+ROLES = roles are Difine to appliaction prmission to differnt user
+IAM -> ROLES -> SELECT TYPE OF ROLE -> ATTACH POLICY (PERMISSSION) -> (role name or description) -> CREATE ROLE
+# connect to ec2 instnace
+ec2 instance -> action -> instance setting ->attach IAM Role -> select role -> apply
+
+POLICY = differnt permission to give user or groups or policy
+IAM -> USER OR ROLE OR GROUPS -> PERMISSION (CREATE POLICY)  -> DIFFERNT TYPE POLICY -> POLICY GENERTAE (DIFFERNT PERMISSION) -> CREATE POLICY
+
+MULTI-FACTOR AUTHENTICATION
+LOGIN -> FIRST LAYER (enter password) -> SEND CODE MAIL OR PHONE 

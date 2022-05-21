@@ -1,0 +1,2 @@
+
+CLIENT -> INGRESS MANAGED LOAD BALANCER -> (routing rule) SERVICE -> POD 
